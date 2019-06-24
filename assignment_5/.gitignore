@@ -1,0 +1,8 @@
+vocab_tiny_q1.json
+vocab_tiny_q2.json
+vocab.json
+__pycache__
+.vscode
+model.bin
+model.bin.optim
+outputs

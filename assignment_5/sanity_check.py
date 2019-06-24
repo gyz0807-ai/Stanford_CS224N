@@ -7,6 +7,8 @@ sanity_check.py: sanity checks for assignment 5
 Usage:
     sanity_check.py 1e
     sanity_check.py 1f
+    sanity_check.py 1h
+    sanity_check.py 1i
     sanity_check.py 1j
     sanity_check.py 2a
     sanity_check.py 2b
@@ -26,6 +28,8 @@ from typing import List, Tuple, Dict, Set, Union
 from tqdm import tqdm
 from utils import pad_sents_char, read_corpus, batch_iter
 from vocab import Vocab, VocabEntry
+from highway import Highway
+from cnn import CNN
 
 from char_decoder import CharDecoder
 from nmt_model import NMT
@@ -95,6 +99,38 @@ def question_1f_sanity_check():
     print("Sanity Check Passed for Question 1f: Padding!")
     print("-"*80)
 
+def question_1h_sanity_check():
+    """Sanity check for Highway() class.
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1h: Highway")
+    print ("-"*80)
+    enc_word_embed_size = 50
+    cnn_out = torch.randn(1, enc_word_embed_size)
+    highway = Highway(enc_word_embed_size)
+    highway_out = highway(cnn_out)
+    assert(highway_out.shape == cnn_out.shape)
+    print("Sanity Check Passed for Question 1h: Highway!")
+    print("-"*80)
+
+def question_1i_sanity_check():
+    """Sanity check for Highway() class.
+    """
+    print ("-"*80)
+    print("Running Sanity Check for Question 1i: CNN")
+    print ("-"*80)
+    e_char = 50
+    m_word = 21
+    e_word = 256
+    kernel_size = 5
+    batch_size = 64
+    x_reshaped_tst = torch.randn(batch_size, e_char, m_word)
+
+    cnn = CNN(e_char, e_word, kernel_size)
+    cnn_out = cnn(x_reshaped_tst)
+    assert(cnn_out.shape == torch.Size([batch_size, e_word]))
+    print("Sanity Check Passed for Question 1i: CNN!")
+    print("-"*80)
 
 def question_1j_sanity_check(model):
 	""" Sanity check for model_embeddings.py 
@@ -213,6 +249,10 @@ def main():
         question_1e_sanity_check()
     elif args['1f']:
         question_1f_sanity_check()
+    elif args['1h']:
+        question_1h_sanity_check()
+    elif args['1i']:
+        question_1i_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
     elif args['2a']:
