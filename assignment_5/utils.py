@@ -47,7 +47,10 @@ def pad_sents_char(sents, char_pad_token):
         s_new = []
         for w in s:
             w_padded = [char_pad_token] * max_word_length
-            w_padded[:len(w)] = w
+            if len(w) > max_word_length:
+                w_padded = w[:max_word_length]
+            else:
+                w_padded[:len(w)] = w
             s_new.append(w_padded)
 
         len_s_new = len(s_new)
